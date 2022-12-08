@@ -1,10 +1,12 @@
 const Note = require("../models/noteModel");
 const catchAsyncError = require("../middleware/catchAsyncErrors");
-
+const ApiFeatures = require("../utils/apifeatures");
+const ErrorHander = require("../utils/errorhander");
 // Get All Notes
 
 exports.getAllNotes = catchAsyncError(async (req,res,next)=>{
-    const notes = await Note.find();
+    const apifeatures = new ApiFeatures(Note.find(),req.query).search();
+    const notes = await apifeatures.query;
     res.status(200).json({
         success:true,
         notes
@@ -28,10 +30,7 @@ exports.updateNote = catchAsyncError(async (req,res,next) => {
     let note = await Note.findById(req.params.id);
 
     if(!note){
-        return res.status(404).json({
-            success:false,
-            message:"Note not found"
-        })
+        return next(new ErrorHander("Note not found!!",404));
     }
 
     note = await Note.findByIdAndUpdate(req.params.id,req.body,{
@@ -51,10 +50,7 @@ exports.updateNote = catchAsyncError(async (req,res,next) => {
 exports.deleteNote = catchAsyncError(async (req,res,next) => {
     let note = await Note.findById(req.params.id);
     if(!note){
-        return res.status(404).json({
-            success:false,
-            message:"Note not found"
-        });
+        return next(new ErrorHander("Note not found!!",404));
     }
 
     await note.remove();
