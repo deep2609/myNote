@@ -1,7 +1,7 @@
 const app = require("./app");
 const dotenv = require("dotenv");
 const connectDatabase = require("./config/database");
-const { Server } = require("http");
+
 
 //unhandled exception error
 process.on("uncaughtException",err=>{

@@ -16,6 +16,7 @@ exports.getAllNotes = catchAsyncError(async (req,res,next)=>{
 // Create A Note
 
 exports.createNote = catchAsyncError(async (req,res,next) => {
+    req.body.user = req.user.id;
     const note = await Note.create(req.body);
 
     res.status(201).json({

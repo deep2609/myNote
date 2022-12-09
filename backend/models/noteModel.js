@@ -20,6 +20,11 @@ const noteSchema = new mongoose.Schema({
         default:0,
         min:0,
         max:10
+    },
+    user:{
+        type:mongoose.Schema.ObjectId,
+        ref:"User",
+        required:true,
     }
 
 })
