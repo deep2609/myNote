@@ -11,3 +11,5 @@ exports.createUser = catchAsyncErrors( async(req,res,next)=>{
     })
 
 });
+
+//Get user details
